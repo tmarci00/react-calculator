@@ -37,7 +37,7 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         currentOperand: `${state.currentOperand || ''}${payload.digit}`,
-        
+
       };
     case ACTIONS.CLEAR:
       return {
@@ -49,11 +49,20 @@ function reducer(state, { type, payload }) {
         return state
       }
       if (state.previousOperand == null) {
+
         return {
           ...state,
           operation: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null,
+
+        }
+
+      }
+      if (state.currentOperand == null && ((state.operation === '÷' || state.operation === '*') && payload.operation === '-')) {
+        return {
+          ...state,
+          minus: -1,
         }
       }
       if (state.currentOperand == null) {
@@ -69,9 +78,11 @@ function reducer(state, { type, payload }) {
         currentOperand: null,
       };
     case ACTIONS.EQUALS:
+      debugger;
       if (state.currentOperand == null || state.previousOperand == null || state.operation == null) {
         return state
       }
+      debugger;
       return {
         currentOperand: equals(state),
         previousOperand: null,
@@ -79,14 +90,14 @@ function reducer(state, { type, payload }) {
         overwrite: true,
       };
     case ACTIONS.DELETE:
-      return{
+      return {
         ...state,
-        currentOperand: `${state.currentOperand.slice(0,-1)}`
+        currentOperand: `${state.currentOperand.slice(0, -1)}`
       }
-    }
+  }
 }
 
-function equals({ currentOperand, previousOperand, operation }) {
+function equals({ currentOperand, previousOperand, operation, minus }) {
   const prev = parseFloat(previousOperand);
   const curr = parseFloat(currentOperand);
 
@@ -108,12 +119,14 @@ function equals({ currentOperand, previousOperand, operation }) {
       break
     case '÷':
       result = prev / curr;
+      break
   }
+  if ((operation === '*' || operation === '÷') && minus !== undefined) { result = result * minus; }
   return result.toString()
 }
 
 function App() {
-  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, { currentOperand: '0', overwrite:true })
+  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, { currentOperand: '0', overwrite: true, minus: 1 })
 
   return (
     <div className="App">
@@ -124,7 +137,7 @@ function App() {
         </div>
 
         <button id='clear' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
-        <button id='delete' onClick={() => dispatch({type: ACTIONS.DELETE})}>DEL</button>
+        <button id='delete' onClick={() => dispatch({ type: ACTIONS.DELETE })}>DEL</button>
         <OperationButton id='divide' operation='÷' dispatch={dispatch} />
         <DigitButton id="one" digit="1" dispatch={dispatch} />
         <DigitButton id="two" digit="2" dispatch={dispatch} />
