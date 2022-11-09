@@ -2,7 +2,9 @@
   box-sizing: border-box;
 }
 
+
 body{
+  --border-radius: 1.2rem;
   margin: 0;
   background: rgb(0,243,255);
   background: linear-gradient(90deg, rgba(0,243,255,1) 0%, rgba(213,0,230,1) 61%);  
@@ -30,6 +32,16 @@ body{
   padding: .75rem;
   word-wrap: break-word;
   word-break: break-all;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+#equals{
+  border-bottom-right-radius: var(--border-radius);
+  }
+
+#decimal{
+  border-bottom-left-radius: var(--border-radius);
 }
 
 #display > #currentOperand{
@@ -56,5 +68,5 @@ body{
 
 #calculator > button:hover,
 #calculator > button:focus{
-  background-color: rgba(255, 255, 255, .9);
+  background-color: rgba(255, 255, 255, .7);
 }

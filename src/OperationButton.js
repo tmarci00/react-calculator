@@ -1,9 +1,9 @@
 import React from 'react'
 import { ACTIONS } from './App'
 
-function OperationButton({dispatch, operation}) {
+function OperationButton({dispatch, operation, id}) {
   return (
-    <button onClick={() => dispatch({type: ACTIONS.CHOOSE_OPERATION, payload: {operation}})}>
+    <button id = {id} onClick={() => dispatch({type: ACTIONS.CHOOSE_OPERATION, payload: {operation}})}>
     {operation}
     </button>
   )

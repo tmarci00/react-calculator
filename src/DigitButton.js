@@ -1,9 +1,9 @@
 import React from 'react';
 import { ACTIONS } from './App';
 
-function DigitButton({ dispatch, digit }) {
+function DigitButton({ dispatch, digit, id }) {
     return (
-        <button onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })}>
+        <button id = {id} onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })}>
             {digit}
         </button>
     )
