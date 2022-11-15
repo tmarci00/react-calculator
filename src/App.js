@@ -45,6 +45,7 @@ function reducer(state, { type, payload }) {
         overwrite: true,
       };
     case ACTIONS.CHOOSE_OPERATION:
+
       if (state.currentOperand == null && state.previousOperand == null) {
         return state
       }
@@ -78,11 +79,11 @@ function reducer(state, { type, payload }) {
         currentOperand: null,
       };
     case ACTIONS.EQUALS:
-      debugger;
+      
       if (state.currentOperand == null || state.previousOperand == null || state.operation == null) {
         return state
       }
-      debugger;
+
       return {
         currentOperand: equals(state),
         previousOperand: null,
@@ -90,6 +91,18 @@ function reducer(state, { type, payload }) {
         overwrite: true,
       };
     case ACTIONS.DELETE:
+      debugger;
+      if(state.currentOperand === '0' || (state.previousOperand != null && state.currentOperand === null)){
+        return state;
+      }
+      if (state.currentOperand.length === 1){
+        return{
+          ...state,
+          currentOperand: '0',
+          overwrite:true
+        }
+      }
+    
       return {
         ...state,
         currentOperand: `${state.currentOperand.slice(0, -1)}`
